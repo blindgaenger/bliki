@@ -77,6 +77,7 @@ end
 # Blog: New Post
 get '/new' do
   auth
+  @post = Post.new
   erb(:edit)
 end
 post '/new' do

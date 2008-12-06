@@ -1,1 +1,9 @@
-<%= form %>
+<form action="" method="post" accept-charset="utf-8">
+  <input type="text" name="title" value="<%= @post.title %>" id="title" /><br>
+  <input type="text" name="tags" value="<%= @post.tags %>" id="tags" /><br>
+  <textarea name="body" rows="20" cols="40"><%= @post.body %></textarea><br>
+  <p><input type="submit" value="Continue &rarr;" accesskey="s" /></p>
+</form>
+<script type="text/javascript" charset="utf-8">
+  document.forms[0].title.focus();
+</script>
