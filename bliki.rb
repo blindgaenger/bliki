@@ -141,6 +141,7 @@ end
 # Wiki: New Page
 get '/:slug/new' do
   auth
+  @post = Page.new(:title => params[:slug])
   erb(:edit)
 end
 post '/:slug/new' do
@@ -192,16 +193,9 @@ get '/base.css' do
   cache(sass(:base))
 end
 
-# Theme $ sIFR support
-get '/css/:filename.css' do
-  send_file "themes/#{Sinatra.options.theme}/css/#{params[:filename]}.css", :disposition => "inline", :type => "text/css"
-end
-get '/js/:filename.js' do
-  send_file "themes/#{Sinatra.options.theme}/js/#{params[:filename]}.js", :disposition => "inline", :type => "text/javascript"
-end
-get '/swf/:filename.swf' do
-  send_file "themes/#{Sinatra.options.theme}/swf/#{params[:filename]}.swf", :disposition => "inline"
-end
-get '/img/:filename.png' do
-  send_file "themes/#{Sinatra.options.theme}/img/#{params[:filename]}.png", :disposition => "inline"
+# Theme support
+['/:ext/:filename.:ext','/img/:filename.:ext'].each do |route|
+  get route do
+    send_file "themes/#{Sinatra.options.theme}/#{params[:ext]}/#{params[:filename]}.#{params[:ext]}", :disposition => "inline"
+  end
 end
