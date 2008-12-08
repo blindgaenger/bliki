@@ -1,14 +1,17 @@
 helpers do
-  def link_to txt, url
-    "<a href='#{url}'>#{txt}</a>"
+  def link_to txt, url, options={}
+    url = "javascript: history.go(-1)" if url == :back
+    options[:href] = url
+    attributes = options.map {|k, v| "#{k.to_s}=\"#{v}\"" }.join(' ')
+    "<a #{attributes}>#{txt}</a>"
   end
-  def tag_list tags, where=""
+  def tag_list tags, where='', separator=', '
     if tags.is_a? String
       tags = tags.split(",").collect { |t| t.strip }
     end
     return tags.map { |tag|
-      tag = link_to tag, "#{where}/tag/#{tag}"
-    }.join(", ")
+      tag = link_to tag, "#{where}/tag/#{tag}", :class => 'tag'
+    }.join(separator)
   end
   def pingomatic
     begin
