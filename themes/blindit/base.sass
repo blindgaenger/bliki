@@ -1,0 +1,232 @@
+/ Color Palette
+/ http://haml.hamptoncatlin.com/docs/rdoc/
+!butter1= #fce94f
+!butter2= #edd400
+!butter3= #c4a000
+!chameleon1= #8ae234
+!chameleon2= #73d216
+!chameleon3= #4e9a06
+!orange1= #fcaf3e
+!orange2= #f57900
+!orange3= #ce5c00
+!skyblue1= #729fcf
+!skyblue2= #3465a4
+!skyblue3= #204a87
+!plum1= #ad7fa8
+!plum2= #75507b
+!plum3= #5c3566
+!chocolate1= #e9b96e
+!chocolate2= #c17d11
+!chocolate3= #8f5902
+!scarletred1= #ef2929
+!scarletred2= #cc0000
+!scarletred3= #a40000
+!white= #ffffff 
+!aluminium1= #eeeeec
+!aluminium2= #d3d7cf
+!aluminium3= #babdb6
+!aluminium4= #888a85
+!aluminium5= #555753
+!aluminium6= #2e3436
+!black= #000000
+
+
+!body_bg= !aluminium6
+!subtitle_fg= !aluminium3
+!link_fg= !skyblue2
+!link_fg_light= !skyblue1
+!link_fg_hover= !scarletred2
+
+
+/ Containers
+body
+  margin: 0
+  padding: 0
+  line-height: 1.5
+  text-align: center
+  background-color= !body_bg
+  color: #000
+  font:
+    family: helvetica,arial,clean,sans-serif
+    size: 13.34px
+    size-adjust: none
+    style: normal
+    variant: normal
+    weight: normal
+
+  #header
+    padding: 1em
+    position: relative
+    text-align: left
+    background-color: #000
+
+    #branding
+      width: 750px
+      margin: 0 auto
+      padding: 1em 0
+
+      img#logo
+        float: right
+        margin-top:5px
+        width: 75px
+        height: 75px
+
+      h1#title
+        font-size: 3em
+        letter-spacing: 0.01em
+        font-weight: bold
+        a
+          color: #ffffff
+        a:hover
+          color= !link_fg_hover
+    
+      div#subtitle
+        margin: 0
+        font-family: Georgia, "Times New Roman", Times, serif
+        font-style: italic
+        color= !subtitle_fg
+        font-size: 1.5em
+        text-transform: lowercase        
+
+  #menu
+    background: #EAF2F5 url(/img/menu-bg.png) repeat-x scroll 0 0
+    border-bottom: 1px solid #CBE3F0
+    text-align: left
+    padding: 0.5em 0
+    
+    ul
+      width: 800px
+      clear: both
+      margin: 0 auto
+      padding: 0
+      font:
+        size: 1.5em
+        weight: bold
+      list:
+        style:
+          image: none
+          position: outside
+          type: none
+
+      li
+        display: inline
+        margin: 0
+        padding: 0 1em
+
+  #container
+    width: 800px
+    margin: 0 auto
+    text-align: left
+    background-color: #fff
+
+    #content
+      padding: 2em
+
+      form
+        .field
+          margin: 0.5em 0
+          overflow: hidden
+          label
+            float: left
+            line-height: 1.7em
+            padding-right: 0.5em
+            text-align: right
+            vertical-align: middle
+            width: 3em
+            font-weight: bold
+          input
+            border: 1px solid #CCCCCC
+            padding: 0.2em 0
+            width: 52.5em
+            
+        .area
+          label
+            display: none
+          textarea
+            border: 1px solid #CCCCCC
+            padding: 0.2em
+            width: 62em
+        
+        .buttons
+          input[type="submit"]
+            font-weight: bold
+            float: left
+            padding: 0 1em
+          a
+            padding: 0 1em
+            vertical-align: middle
+            
+      .post, .page, .group
+        .title
+          font-size: 1.5em
+          font-weight: bold
+        small
+          color= !aluminium4
+        .tag
+          -moz-border-radius-topleft: 0.3em
+          -moz-border-radius-topright: 0.3em
+          -moz-border-radius-bottomright: 0.3em
+          -moz-border-radius-bottomleft: 0.3em
+          margin-right: 0.1em
+          padding: 0.1em 0.4em 0.1em 0.3em
+          background-color= !aluminium4
+          color= !white
+          text-align: center
+          text-decoration: none
+          text-transform: lowercase
+        .tag:hover
+          background-color= !link_fg_hover
+          color= !white
+
+    div.code
+      font-family: Inconsolata, Consolas, Monaco, fixed
+      background-color= !black
+      color: #F8F8F8
+      -moz-border-radius-topleft: 0.0em
+      -moz-border-radius-topright: 1em
+      -moz-border-radius-bottomright: 1em
+      -moz-border-radius-bottomleft: 1em      
+      margin: 1em 0
+      padding: 1em
+      pre.lines
+        border-right: 0 none
+        color: #666666
+        float: left
+        margin: 0
+        padding-right: 1em
+      pre.sunburst
+        margin: 0
+        padding: 0
+      
+
+  #footer
+    background-color= !body_bg
+    color= !subtitle_fg
+    clear: both
+    font-size: 0.9em
+    padding: 1em
+    a
+      color= !link_fg_light
+    a:hover
+      color= !link_fg_hover
+
+/ Global style
+h1, h2, h3
+  font-weight: normal
+  letter-spacing: -1px
+  margin: 0
+
+a
+  color= !link_fg
+  text-decoration: none
+  
+a:hover
+  color= !link_fg_hover
+
+a
+  font-family:Arial,sans-serif
+  font-size:0.8em
+  font-weight:bold
+
+
+

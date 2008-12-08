@@ -1,0 +1,10 @@
+<div class="<%= @post.class.to_s.downcase %>">
+  <h2 class="title"><%= @post.title %></h2>
+  <small>posted on <%= @post.date %>, filed under <%= tag_list @post.tags, '', '' %></small>
+  <div class="body">
+    <%= @post.content %>
+  </div>
+  <%= disqus if Sinatra.options.use_comments %>
+</div>
+<div class="admin"><a href="<%= @post.edit_link %>" accesskey="e">edit</a></div>
+<div class="admin"><a href="/new" accesskey="n">new</a></div>
