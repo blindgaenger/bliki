@@ -14,26 +14,33 @@ end
 
 #####################################################################################
 # Setup
-configure do
+def stone_start
   Stone.start(Dir.pwd + "/db/#{Sinatra.env.to_s}", Dir.glob(File.join(Dir.pwd,"models/*")))
+end
+def load_config
   YAML::load(File.read('config.yml')).to_hash.each do |k,v|
     set k, v
   end
   theme = Sinatra.options.theme || "default"
   set :views, "themes/#{theme}"
 end
-configure :development do
-  set :cache_enabled, false
-  set :ping, false
-  Sinatra.options.development.each do |k,v|
+def set_options_for env
+  Sinatra.options.send(env).each do |k,v|
     set k, v
   end
 end
+configure do
+  stone_start
+  load_config
+end
+configure :development do
+  set :cache_enabled, false
+  set :ping, false
+  set_options_for :development
+end
 configure :production do
   disable :logging
-  Sinatra.options.production.each do |k,v|
-    set k, v
-  end
+  set_options_for :production
   not_found do
     redirect "/"
   end
@@ -43,9 +50,18 @@ configure :production do
 end
 configure :test do
   set :cache_enabled, false
-  Sinatra.options.test.each do |k,v|
-    set k, v
+  set_options_for :test
+end
+if development?
+  Dir["lib/*.rb"].each do |f|
+    load f
   end
+  Dir["lib/plugin/*.rb"].each do |f|
+    load f
+  end
+  stone_start
+  load_config
+  set_options_for :development
 end
 
 
@@ -82,12 +98,7 @@ get '/new' do
 end
 post '/new' do
   auth
-  post = Post.new(
-    :title => params[:title],
-    :body => params[:body],
-    :tags => params[:tags]
-  )
-  post.save
+  post = Post.new(params)
   expire_cache "/"
   expire_cache "/feed/"
   # Ping
@@ -112,11 +123,7 @@ end
 post '/post/:id/edit' do
   auth
   post = Post[params[:id]]
-  post.update_attributes(
-    :title => params[:title],
-    :body => params[:body],
-    :tags => params[:tags]
-  )
+  post.update_attributes(params)
   expire_cache "/"
   expire_cache "/feed/"
   expire_cache post.link
@@ -146,12 +153,7 @@ get '/:slug/new' do
 end
 post '/:slug/new' do
   auth
-  @page = Page.new(
-    :title => params[:title],
-    :body => params[:body],
-    :tags => params[:tags]
-  )
-  @page.save
+  @page = Page.new(params)
   redirect @page.link
 end
 
@@ -164,11 +166,7 @@ end
 post '/:id/edit' do
   auth
   post = Page[params[:id]]
-  post.update_attributes(
-    :title => params[:title],
-    :body => params[:body],
-    :tags => params[:tags]
-  )
+  post.update_attributes(params)
   expire_cache post.link
   redirect post.link
 end
@@ -194,8 +192,7 @@ get '/base.css' do
 end
 
 # Theme support
-['/:ext/:filename.:ext','/img/:filename.:ext'].each do |route|
-  get route do
-    send_file "themes/#{Sinatra.options.theme}/#{params[:ext]}/#{params[:filename]}.#{params[:ext]}", :disposition => "inline"
-  end
+get '/:type/:filename.:ext' do
+  send_file "themes/#{Sinatra.options.theme}/#{params[:type]}/#{params[:filename]}.#{params[:ext]}", :disposition => "inline"
 end
+
