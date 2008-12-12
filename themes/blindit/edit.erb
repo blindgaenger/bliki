@@ -9,7 +9,8 @@
   </div>
   <div class="area">
     <label for="body">Body:</label>
-    <textarea name="body" rows="20" cols="40"><%= @post.body %></textarea>
+    <textarea id="resizable" name="body" rows="20" cols="40"><%= @post.body %></textarea>
+  	<div id="resizebar"></div>
   </div>
   <div class="field">
     <label for="attachment">Attach:</label>
@@ -20,8 +21,24 @@
     <div class="admin"><%= link_to 'Cancel', :back, :accesskey => 'c' %></div>
   </div>
 </form>
+
 <script type="text/javascript" charset="utf-8">
   document.forms[0].title.focus();
   document.forms[0].title.select();  
+
+  $(document).ready(
+	  function() {
+      $('#resizable').Resizable({
+        handlers: {
+          s: '#resizebar'
+        }
+      });
+      
+      $('#resizable').autogrow({
+        minHeight: 200,
+		    lineHeight: 16
+    	});
+	  }
+  );
 </script>
 
