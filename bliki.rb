@@ -122,8 +122,28 @@ get '/post/:id/edit' do
 end
 post '/post/:id/edit' do
   auth
+  
+  attachment_params = params.delete("attachment")
+  
   post = Post[params[:id]]
   post.update_attributes(params)
+
+  unless attachment_params.nil?
+    filename = attachment_params[:filename]
+    file = attachment_params[:tempfile]
+    attachment = Attachment.new(
+      :post_id => post.id,
+      :name => filename,
+      :link => File.join('/', 'attachments', filename),
+      :path => File.join(Sinatra.options.public, 'attachments'),
+      :content => File.open(File.expand_path(file.path)) #TODO: refactor the attachment model
+    )
+    
+    unless attachment.save
+      warn "could not save attachment #{filename}"
+    end
+  end
+  
   expire_cache "/"
   expire_cache "/feed/"
   expire_cache post.link

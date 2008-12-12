@@ -1,4 +1,4 @@
-<form action="" method="post" accept-charset="utf-8">
+<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
   <div class="field">
     <label for="title">Title:</label>
     <input type="text" name="title" value="<%= @post.title %>" id="title" />
@@ -10,6 +10,10 @@
   <div class="area">
     <label for="body">Body:</label>
     <textarea name="body" rows="20" cols="40"><%= @post.body %></textarea>
+  </div>
+  <div class="field">
+    <label for="attachment">Attach:</label>
+    <input type="file" name="attachment" value="" id="attachment" />
   </div>
   <div class="buttons">
     <input type="submit" value="Save" accesskey="s" />

@@ -3,6 +3,7 @@ class Attachment
 
   field :name, String, :unique => true
   field :path, String
+  field :link, String
   field :content, File
   belongs_to :post
 
