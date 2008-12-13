@@ -18,8 +18,12 @@ module BlikiContent
   end
   def content
     @content_plugins = body
-    self.methods.each do |m|
-      @content_plugins = self.send(m, @content_plugins) if m =~ /^plugin_/
+    self.methods.grep(/^plugin_/) do |m|
+      result = self.send(m, @content_plugins) 
+      unless result.nil?
+        raise "plugin #{m} didn't return a String: #{result.to_s}" unless result.is_a? String
+        @content_plugins = result
+      end
     end
     html = RDiscount.new(@content_plugins).to_html
     return html
