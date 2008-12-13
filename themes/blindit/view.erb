@@ -7,15 +7,17 @@
   <%= disqus if Sinatra.options.use_comments %>
 </div>
 
-<div><%= @post.attachments.size %> Attachments</div>
-<ul>
-<% for attachment in @post.attachments %>
-    <li><%= link_to attachment.name, attachment.link %></li>
+<% if @post.is_a? Post %>
+  <div><%= @post.attachments.size %> Attachments</div>
+  <ul>
+  <% for attachment in @post.attachments %>
+      <li><%= link_to attachment.name, attachment.link %></li>
+  <% end %>
+  </ul>
 <% end %>
-</ul>
 
 <div class="buttons">
-  <div class="admin"><a href="<%= @post.edit_link %>" accesskey="e">edit</a></div>
-  <div class="admin"><a href="/new" accesskey="n">new</a></div>
+  <a href="/new" accesskey="n">New</a>
+  <a href="<%= @post.edit_link %>" accesskey="e">Edit</a>
 </div>
 

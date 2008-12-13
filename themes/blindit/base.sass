@@ -37,6 +37,9 @@
 !link_fg_light= !skyblue1
 !link_fg_hover= !scarletred2
 
+!button_bg= !aluminium6
+!button_bg_hover= !scarletred2
+!button_fg= !white
 
 / Containers
 body
@@ -123,47 +126,73 @@ body
       padding: 2em
 
       form
-        .field
-          margin: 0.5em 0
+        margin: 0
+        padding: 0
+      
+      .field
+        margin: 0.5em 0
+        overflow: hidden
+        label
+          float: left
+          line-height: 1.7em
+          padding-right: 0.5em
+          text-align: right
+          vertical-align: middle
+          width: 3em
+          font-weight: bold
+        input
+          border: 1px solid #CCCCCC
+          padding: 0.2em 0
+          width: 52.5em
+
+      .area
+        label
+          display: none
+        textarea
+          border: 1px solid #CCCCCC
+          padding: 0.2em
+          width: 62em
+        textarea#resizable
+          min-height: 200px
+        div#resizebar
+          display: none
+          height: 8px
+          background-color= !aluminium5
           overflow: hidden
-          label
-            float: left
-            line-height: 1.7em
-            padding-right: 0.5em
-            text-align: right
-            vertical-align: middle
-            width: 3em
-            font-weight: bold
-          input
-            border: 1px solid #CCCCCC
-            padding: 0.2em 0
-            width: 52.5em
-            
-        .area
-          label
-            display: none
-          textarea
-            border: 1px solid #CCCCCC
-            padding: 0.2em
-            width: 62em
-          textarea#resizable
-            min-height: 200px
-          div#resizebar
-            display: none
-            height: 8px
-            background-color= !aluminium5
-            overflow: hidden
-            cursor: s-resize
-        
-        .buttons
-          input[type="submit"]
-            font-weight: bold
-            float: left
-            padding: 0 1em
-          a
-            padding: 0 1em
-            vertical-align: middle
-            
+          cursor: s-resize
+      
+      .buttons
+        div
+          display: inline
+        input, a
+          margin: 0 5px 0 0
+          padding: 0 1em
+
+          background-color= !button_bg
+          color= !button_fg
+          border-width: 0
+          border-color= !button_bg
+          border-style: solid
+
+          font-family: Arial,sans-serif
+          font-size: 1em
+          font-weight: bold
+          
+          -moz-border-radius-bottomleft: 0.5em
+          -moz-border-radius-bottomright: 0.5em
+          -moz-border-radius-topleft: 0.5em
+          -moz-border-radius-topright: 0.5em    
+
+        input:hover, a:hover
+          background-color= !button_bg_hover
+          border-color= !button_bg_hover
+          
+        input[type="submit"]
+          border-width: 1px 0 1px 0
+          cursor: pointer
+        a
+          border-width: 2px 0 2px 0
+
       .post, .page, .group
         .title
           font-size: 1.5em
@@ -235,6 +264,4 @@ a
   font-family:Arial,sans-serif
   font-size:0.8em
   font-weight:bold
-
-
 

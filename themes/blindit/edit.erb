@@ -14,11 +14,11 @@
   </div>
   <div class="field">
     <label for="attachment">Attach:</label>
-    <input type="file" name="attachment" value="" id="attachment" />
+    <input type="file" size="70" name="attachment" value="" id="attachment" />
   </div>
   <div class="buttons">
     <input type="submit" value="Save" accesskey="s" />
-    <div class="admin"><%= link_to 'Cancel', :back, :accesskey => 'c' %></div>
+    <%= link_to 'Cancel', :back, :accesskey => 'c' %>
   </div>
 </form>
 
@@ -40,5 +40,5 @@
     	});
 	  }
   );
-</script>
+</script>  
 

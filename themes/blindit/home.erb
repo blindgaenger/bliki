@@ -2,7 +2,7 @@
 <% @posts.each do |post| %>
   <div class="<%= post.class.to_s.downcase %>">
     <h2 class="title"><%= link_to post.title, post.link %></h2>
-    <small>posted on <%= post.date %>, filed under <%= tag_list post.tags %></small>
+    <small>posted on <%= post.date %>, filed under <%= tag_list post.tags, '', '' %></small>
     <div class="body">
     <%= post.content %>
     </div>
