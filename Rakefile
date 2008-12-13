@@ -13,12 +13,14 @@ task :restart do
   %x(touch tmp/restart.txt)
 end
 
+desc "Runs the test-case"
 task :test do
   %x(mkdir db) unless File.exist?("db")
   %x(mkdir db/test) unless File.exist?("db/test")
   sh("ruby test/test_bliki.rb")
 end
 
+desc "Installs the required gems and inits the submodules"
 task :install do
   sh("sudo gem install rack rdiscount haml builder feedvalidator validatable english facets mongrel daemons")
   sh("git submodule init")

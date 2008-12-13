@@ -7,6 +7,8 @@ class Attachment
   field :content, File
   belongs_to :post
 
+  validates_presence_of :name  
+
   before_save :save_file
 
   def save_file
