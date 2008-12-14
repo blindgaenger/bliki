@@ -120,7 +120,7 @@ get '/post/:id/edit' do
   @post = Post[params[:id]]
   erb(:edit)
 end
-post '/post/:id/edit' do
+put '/post/:id/edit' do
   auth
   
   attachment_params = params.delete("attachment")
@@ -183,7 +183,7 @@ get '/:id/edit' do
   @post = Page[params[:id]]
   erb(:edit)
 end
-post '/:id/edit' do
+put '/:id/edit' do
   auth
   post = Page[params[:id]]
   post.update_attributes(params)

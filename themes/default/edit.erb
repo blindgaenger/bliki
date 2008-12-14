@@ -1,4 +1,5 @@
 <form action="" method="post" accept-charset="utf-8">
+  <%= form_method @post %>
   <input type="text" name="title" value="<%= @post.title %>" id="title" /><br>
   <input type="text" name="tags" value="<%= @post.tags %>" id="tags" /><br>
   <textarea name="body" rows="20" cols="40"><%= @post.body %></textarea><br>
