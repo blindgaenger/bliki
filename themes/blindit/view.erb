@@ -17,7 +17,6 @@
 <% end %>
 
 <div class="buttons">
-  <a href="/new" accesskey="n">New</a>
-  <a href="<%= @post.edit_link %>" accesskey="e">Edit</a>
+  <%= link_to 'Edit', @post.edit_link, :accesskey => 'e' %>
 </div>
 
