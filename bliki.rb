@@ -149,6 +149,18 @@ put '/post/:id/edit' do
   expire_cache post.link
   redirect post.link
 end
+get '/post/:id/delete' do
+  auth
+  @post = Post[params[:id]]
+  erb(:delete)
+end
+delete '/post/:id/delete' do
+  auth
+  post = Post[params[:id]]
+  expire_cache post.link
+  Post.delete(post.id)   
+  redirect '/'
+end
 
 
 #####################################################################################
@@ -168,7 +180,7 @@ end
 # Wiki: New Page
 get '/:slug/new' do
   auth
-  @post = Page.new(:title => params[:slug])
+  @post = Page.new(:title => params[:slug], :tags => '')
   erb(:edit)
 end
 post '/:slug/new' do
@@ -190,7 +202,18 @@ put '/:id/edit' do
   expire_cache post.link
   redirect post.link
 end
-
+get '/:id/delete' do
+  auth
+  @post = Page[params[:id]]
+  erb(:delete)
+end
+delete '/:id/delete' do
+  auth
+  post = Page[params[:id]]
+  expire_cache post.link
+  Page.delete(post.id)   
+  redirect '/'
+end
 
 #####################################################################################
 # Archive: View Tag
