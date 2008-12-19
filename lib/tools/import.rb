@@ -16,15 +16,15 @@ end
 def import_wordpress_content from_filename, to_environment
   Stone.start(File.join(Dir.pwd, "db/#{to_environment}"), Dir.glob(File.join(Dir.pwd,"models/*")))
   doc = parse_wordpress_xml(from_filename)
-  posts = find_posts_in doc
-  posts.each do |post|
-    current_post = Post.new(:title => post[:title], :body => post[:content], :tags => post[:tags], :created_at => post[:time], :updated_at => post[:time])
-    current_post.save
-    current_post.update_attributes(
-      :created_at => post[:time],
-      :updated_at => post[:time]
+  pages = find_pages_in doc
+  pages.each do |page|
+    current_page = Page.new(:title => page[:title], :body => page[:content], :tags => page[:tags], :created_at => page[:time], :updated_at => page[:time])
+    current_page.save
+    current_page.update_attributes(
+      :created_at => page[:time],
+      :updated_at => page[:time]
     )
-    puts current_post.nicetitle
+    puts current_page.nicetitle
   end
 end
 
@@ -46,10 +46,10 @@ def import_wordpress_comments
   end
 end
 
-def find_posts_in doc
-  posts = []
+def find_pages_in doc
+  pages = []
   doc.get_elements("//item").each do |item| 
-    # if it's a published post, then we import it
+    # if it's a published page, then we import it
     if item.elements["wp:post_type"].text == "post" and item.elements["wp:status"].text == "publish" then
       post_id = item.elements["wp:post_id"].text.to_i
       title = item.elements["title"].text
@@ -60,7 +60,7 @@ def find_posts_in doc
         tags << cat.text
       }
       tags = tags.map { |t| t.downcase }.sort.uniq.join(", ")
-      posts << {
+      pages << {
         :post_id => post_id,
         :title => title,
         :content => content,
@@ -69,7 +69,7 @@ def find_posts_in doc
       }
     end
   end
-  return posts
+  return pages
 end
 
 def find_comments_in doc
@@ -80,7 +80,7 @@ def find_comments_in doc
       comment.elements.each do |e|
         current_comment[e.name.to_sym] = e.text
       end
-      # TODO: Find which post the comment belongs to...
+      # TODO: Find which page the comment belongs to...
       comments << current_comment
     end
   end

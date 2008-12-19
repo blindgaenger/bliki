@@ -11,7 +11,7 @@ xml.feed(:xmlns => 'http://www.w3.org/2005/Atom') do
   xml.id      base_url + '/'
   xml.title   title
   # Add date
-  xml.updated atom_time(@posts.first.updated_at)
+  xml.updated atom_time(@pages.first.updated_at)
   # Add links
   xml.link(:rel => 'alternate', :href => base_url)
   xml.link(:rel => 'self',      :href => feed_url)
@@ -20,23 +20,22 @@ xml.feed(:xmlns => 'http://www.w3.org/2005/Atom') do
     xml.name  author_name
     xml.uri   author_uri
   end
-  # Add posts
-  @posts.each do |post|
+  # Add pages
+  @pages.each do |page|
     xml.entry do
-      post_path = base_url + post.link
-      post_id = "tag:" + base_url.gsub("http://","") + "," + post.created_at.strftime("%Y-%m-%d") + ":" + atom_time(post.created_at)
+      page_path = base_url + page.link
+      page_id = "tag:" + base_url.gsub("http://","") + "," + page.created_at.strftime("%Y-%m-%d") + ":" + atom_time(page.created_at)
       # Add primary attributes
-      xml.id         post_id
-      xml.title      post.title, :type => 'html'
+      xml.id         page_id
+      xml.title      page.title, :type => 'html'
       # Add dates
-      xml.published  atom_time(post.created_at)
-      xml.updated    atom_time(post.updated_at)
+      xml.published  atom_time(page.created_at)
+      xml.updated    atom_time(page.updated_at)
       # Add link
-      xml.link(:rel => 'alternate', :href => post_path)
+      xml.link(:rel => 'alternate', :href => page_path)
       # Add content
-      summary =       post.content[0..100]
-      xml.content    post.content, :type => 'html'
-      xml.summary    summary, :type => 'html' unless summary.nil?
+      xml.content    page.content, :type => 'html'
+      xml.summary    page.content[0..100], :type => 'html' unless page.content.nil?
     end
   end
 end

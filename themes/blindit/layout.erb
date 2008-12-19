@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><%= Sinatra.options.name %><%= " - #{@post.title}" unless @post.nil? %><%= " - #{@page.title}" unless @page.nil? %><%= " - #{Sinatra.options.title}" if @post.nil? && @page.nil? %></title>
+    <title><%= Sinatra.options.name %><%= " - #{@page.title}" unless @page.nil? %><%= " - #{@page.title}" unless @page.nil? %><%= " - #{Sinatra.options.title}" if @page.nil? && @page.nil? %></title>
     <meta name="generator" content="bliki on ruby" />
     <link rel="stylesheet" href="/base.css" type="text/css" media="screen" title="base" charset="utf-8">
     <link rel="stylesheet" href="/css/sunburst.css" type="text/css" media="screen" title="base" charset="utf-8">

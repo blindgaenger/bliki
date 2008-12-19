@@ -4,12 +4,8 @@ require "lib/sinatra/lib/sinatra"
 require "lib/sinatra-cache/lib/cache"
 require "lib/stone/lib/stone"
 require "rdiscount"
-Dir["lib/*.rb"].each do |f|
-  require f
-end
-Dir["lib/plugin/*.rb"].each do |f|
-  require f
-end
+Dir["lib/*.rb"].each { |f| require f }
+Dir["lib/plugin/*.rb"].each { |f| require f }
 
 
 #####################################################################################
@@ -67,38 +63,54 @@ end
 
 before do
   content_type 'text/html', :charset => 'utf-8'
-  @tags = ((Post.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten) + (Page.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten)).uniq.sort
+  @tags = ((Page.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten) + (Page.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten)).uniq.sort
 end
 
 #####################################################################################
 # Atom Feed
 get '/feed/' do
   content_type 'application/atom+xml', :charset => "utf-8"
-  @posts = Post.all(:order => {:updated_at => :desc}).first(Sinatra.options.limit)
+  @pages = Page.all(:order => {:updated_at => :desc}).first(Sinatra.options.limit)
   cache(builder(:feed))
 end
 
 
 #####################################################################################
-# Blog: Home
+# Home
 get '/' do
-  all_posts = Post.all(:order => {:created_at => :desc})
-  @posts = all_posts.first(Sinatra.options.limit)
-  if all_posts.size > Sinatra.options.limit
-    @archives = all_posts[(Sinatra.options.limit)...Sinatra.options.limit*2]
+  all_pages = Page.all(:order => {:created_at => :desc})
+  @pages = all_pages.first(Sinatra.options.limit)
+  if all_pages.size > Sinatra.options.limit
+    @archives = all_pages[(Sinatra.options.limit)...Sinatra.options.limit*2]
   end
   cache(erb(:home))
 end
 
-# Blog: New Post
+#####################################################################################
+#### Wiki
+#####################################################################################
+
+#### New
+get '/:slug/new' do
+  auth
+  @page = Page.new(:title => params[:slug], :tags => '')
+  erb(:edit)
+end
+post '/:slug/new' do
+  auth
+  @page = Page.new(params)
+  redirect @page.link
+end
+
+#blog
 get '/new' do
   auth
-  @post = Post.new
+  @page = Page.new
   erb(:edit)
 end
 post '/new' do
   auth
-  post = Post.new(params)
+  page = Page.new(params)
   expire_cache "/"
   expire_cache "/feed/"
   # Ping
@@ -106,33 +118,61 @@ post '/new' do
   redirect "/"
 end
 
-# Blog: View Post
-['/:year/:month/:day/:slug/','/post/:slug'].each do |route|
+
+#### View
+['/:slug', '/:slug/'].each do |route|
   get route do
-    @post = Post.first :nicetitle => params[:slug]
+    params[:slug].downcase!
+    @page = Page.first(:nicetitle => params[:slug])
+    if @page.nil?
+      redirect "/#{params[:slug]}/new"
+    else
+      cache(erb(:view))
+    end
+  end
+end
+
+#blog
+['/:year/:month/:day/:slug/','/page/:slug'].each do |route|
+  get route do
+    @page = Page.first :nicetitle => params[:slug]
     cache(erb(:view))
   end
 end
 
-# Blog: Edit Post
-get '/post/:id/edit' do
+#### Edit
+get '/:id/edit' do
   auth
-  @post = Post[params[:id]]
+  @page = Page[params[:id]]
   erb(:edit)
 end
-put '/post/:id/edit' do
+put '/:id/edit' do
+  auth
+  page = Page[params[:id]]
+  page.update_attributes(params)
+  expire_cache page.link
+  redirect page.link
+end
+
+#blog
+get '/page/:id/edit' do
+  auth
+  @page = Page[params[:id]]
+  erb(:edit)
+end
+put '/page/:id/edit' do
   auth
   
   attachment_params = params.delete("attachment")
   
-  post = Post[params[:id]]
-  post.update_attributes(params)
+  page = Page[params[:id]]
+  page.update_attributes(params)
 
   unless attachment_params.nil?
     filename = attachment_params[:filename]
     file = attachment_params[:tempfile]
     attachment = Attachment.new(
-      :post_id => post.id,
+      :page_id => page.id,
       :name => filename,
       :link => File.join('/', 'attachments', filename),
       :path => File.join(Sinatra.options.public, 'attachments'),
@@ -146,83 +186,47 @@ put '/post/:id/edit' do
   
   expire_cache "/"
   expire_cache "/feed/"
-  expire_cache post.link
-  redirect post.link
-end
-get '/post/:id/delete' do
-  auth
-  @post = Post[params[:id]]
-  erb(:delete)
-end
-delete '/post/:id/delete' do
-  auth
-  post = Post[params[:id]]
-  expire_cache post.link
-  Post.delete(post.id)   
-  redirect '/'
+  expire_cache page.link
+  redirect page.link
 end
 
-
-#####################################################################################
-#### Wiki: View Page
-['/:slug', '/:slug/'].each do |route|
-  get route do
-    params[:slug].downcase!
-    @post = Page.first(:nicetitle => params[:slug])
-    if @post.nil?
-      redirect "/#{params[:slug]}/new"
-    else
-      cache(erb(:view))
-    end
-  end
-end
-
-# Wiki: New Page
-get '/:slug/new' do
-  auth
-  @post = Page.new(:title => params[:slug], :tags => '')
-  erb(:edit)
-end
-post '/:slug/new' do
-  auth
-  @page = Page.new(params)
-  redirect @page.link
-end
-
-# Wiki: Edit Page
-get '/:id/edit' do
-  auth
-  @post = Page[params[:id]]
-  erb(:edit)
-end
-put '/:id/edit' do
-  auth
-  post = Page[params[:id]]
-  post.update_attributes(params)
-  expire_cache post.link
-  redirect post.link
-end
+#### delete
 get '/:id/delete' do
   auth
-  @post = Page[params[:id]]
+  @page = Page[params[:id]]
   erb(:delete)
 end
 delete '/:id/delete' do
   auth
-  post = Page[params[:id]]
-  expire_cache post.link
-  Page.delete(post.id)   
+  page = Page[params[:id]]
+  expire_cache page.link
+  Page.delete(page.id)   
   redirect '/'
 end
+
+#blog
+get '/page/:id/delete' do
+  auth
+  @page = Page[params[:id]]
+  erb(:delete)
+end
+delete '/page/:id/delete' do
+  auth
+  page = Page[params[:id]]
+  expire_cache page.link
+  Page.delete(page.id)   
+  redirect '/'
+end
+
 
 #####################################################################################
 # Archive: View Tag
 get '/tag/:name' do
   @tag = params[:name]
-  all_posts = (Post.all :tags.includes => @tag,:order => {:created_at => :desc}) + (Page.all :tags.includes => @tag,:order => {:created_at => :desc})
-  @posts = all_posts.first(Sinatra.options.limit)
-  if all_posts.size > Sinatra.options.limit
-    @archives = all_posts[(Sinatra.options.limit)...all_posts.size]
+  all_pages = (Page.all :tags.includes => @tag,:order => {:created_at => :desc}) + (Page.all :tags.includes => @tag,:order => {:created_at => :desc})
+  @pages = all_pages.first(Sinatra.options.limit)
+  if all_pages.size > Sinatra.options.limit
+    @archives = all_pages[(Sinatra.options.limit)...all_pages.size]
   end
   erb(:archive)
 end

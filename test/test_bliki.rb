@@ -39,8 +39,8 @@ class BlikiTest < Test::Unit::TestCase
       FileUtils.rm file unless File.directory? file
     end
     Stone.start(Dir.pwd + "/db/#{Sinatra.env.to_s}", Dir.glob(File.join(Dir.pwd,"models/*")))
-    # create one post
-    p = Post.new(:title => "First post", :body => "This is a sample post", :tags => "test")
+    # create one page
+    p = Page.new(:title => "First page", :body => "This is a sample page", :tags => "test")
     p.save
   end
   def teardown
@@ -73,20 +73,20 @@ class BlikiTest < Test::Unit::TestCase
   test "Auth is disabled in testing environment" do
     assert_equal false, Sinatra.application.options.use_auth
   end
-  # Mock content: Posts
-  test "Post creation works under the hood" do
-    first_post = Post.new(:title => "First post", :body => "Wadus wadus", :tags => "foo, bar")
-    first_post.save
-    get_it "/post/first-post"
+  # Mock content: Pages
+  test "Page creation works under the hood" do
+    first_page = Page.new(:title => "First page", :body => "Wadus wadus", :tags => "foo, bar")
+    first_page.save
+    get_it "/page/first-page"
     assert_equal 200, status
     get_it "/tag/foo"
     assert_equal 200, status
     get_it "/tag/bar"
     assert_equal 200, status
   end
-  test "Post creation works over the hood" do
-    post_it "/new", :title => "Second post", :body => "Wadus wadus", :tags => "wadus, badus"
-    get_it "/post/second-post"
+  test "Page creation works over the hood" do
+    post_it "/new", :title => "Second page", :body => "Wadus wadus", :tags => "wadus, badus"
+    get_it "/page/second-page"
     assert_equal 200, status
     get_it "/tag/wadus"
     assert_equal 200, status
@@ -116,57 +116,57 @@ class BlikiTest < Test::Unit::TestCase
 
   # Stone
   test "Stone works as expected" do
-    all_posts_start = Post.all.size
-    first_post = Post[1]
-    assert_equal 1, first_post.id
-    new_post = Post.new(:title => "Third post", :body => "Third post", :tags => "third")
-    new_post.save
-    all_posts_end = Post.all.size
-    assert_equal all_posts_end, all_posts_start + 1
+    all_pages_start = Page.all.size
+    first_page = Page[1]
+    assert_equal 1, first_page.id
+    new_page = Page.new(:title => "Third page", :body => "Third page", :tags => "third")
+    new_page.save
+    all_pages_end = Page.all.size
+    assert_equal all_pages_end, all_pages_start + 1
   end
-  test "Stone works with more than 99 existing posts" do
-    post_count = Post.all.size
-    (1..200-post_count).each do |i|
-      tmp_post = Post.new(:title => "Post #{i}", :body => "Body #{i}", :tags => "tag#{i}" )
-      tmp_post.save
+  test "Stone works with more than 99 existing pages" do
+    page_count = Page.all.size
+    (1..200-page_count).each do |i|
+      tmp_page = Page.new(:title => "Page #{i}", :body => "Body #{i}", :tags => "tag#{i}" )
+      tmp_page.save
     end
-    all_posts = Post.all
-    assert_equal(200, all_posts.size)
-    assert_equal(200, all_posts.last.id)
-    assert_equal(Post[200], all_posts.last)
+    all_pages = Page.all
+    assert_equal(200, all_pages.size)
+    assert_equal(200, all_pages.last.id)
+    assert_equal(Page[200], all_pages.last)
     (1..100).each do |i|
-      tmp_post = Post.new(:title => "Post #{i}", :body => "Body #{i}", :tags => "tag#{i}" )
-      tmp_post.save
+      tmp_page = Page.new(:title => "Page #{i}", :body => "Body #{i}", :tags => "tag#{i}" )
+      tmp_page.save
     end
-    all_posts = Post.all
-    assert_equal(300, all_posts.size)
-    assert_equal(Post[300], all_posts.last)
+    all_pages = Page.all
+    assert_equal(300, all_pages.size)
+    assert_equal(Page[300], all_pages.last)
   end
-  test "Posts have a creation date" do
-    first_post = Post[1]
-    assert_not_nil first_post.created_at
+  test "Pages have a creation date" do
+    first_page = Page[1]
+    assert_not_nil first_page.created_at
   end
-  test "Posts have an update date" do
-    first_post = Post[1]
-    assert_not_nil first_post.updated_at
-    assert_kind_of DateTime, first_post.updated_at
+  test "Pages have an update date" do
+    first_page = Page[1]
+    assert_not_nil first_page.updated_at
+    assert_kind_of DateTime, first_page.updated_at
   end
-  test "Posts updated_at field is updated on save" do
-    first_post = Post[1]
-    original_updated_at = first_post.updated_at
-    first_post.tags = "foo, bar, baz"
-    first_post.save
-    assert_not_equal original_updated_at, first_post.updated_at
-    assert_kind_of DateTime, first_post.updated_at
+  test "Pages updated_at field is updated on save" do
+    first_page = Page[1]
+    original_updated_at = first_page.updated_at
+    first_page.tags = "foo, bar, baz"
+    first_page.save
+    assert_not_equal original_updated_at, first_page.updated_at
+    assert_kind_of DateTime, first_page.updated_at
   end
-  test "Posts updated_at field is updated on put" do
-    first_post = Post[1]
-    original_updated_at = first_post.updated_at
-    first_post.update_attributes(
+  test "Pages updated_at field is updated on put" do
+    first_page = Page[1]
+    original_updated_at = first_page.updated_at
+    first_page.update_attributes(
       :tags => "foo, bar, baz"
     )
-    assert_not_equal original_updated_at, first_post.updated_at
-    assert_kind_of DateTime, first_post.updated_at
+    assert_not_equal original_updated_at, first_page.updated_at
+    assert_kind_of DateTime, first_page.updated_at
   end
 
   # Tags
@@ -199,13 +199,13 @@ class BlikiTest < Test::Unit::TestCase
 
   # Attachments
   test "attachment relationships work at model level" do
-    post_with_attach = Post.new(:title => "Post with attach", :body => "this post has an attach", :tags => "attach")
-    post_with_attach.save
-    a = Attachment.new(:name => "foo", :path => Sinatra.options.public, :content => File.open("README.markdown"), :post_id => post_with_attach.id)
+    page_with_attach = Page.new(:title => "Page with attach", :body => "this page has an attach", :tags => "attach")
+    page_with_attach.save
+    a = Attachment.new(:name => "foo", :path => Sinatra.options.public, :content => File.open("README.markdown"), :page_id => page_with_attach.id)
     a.save
-    b = Attachment.new(:name => "bar", :path => Sinatra.options.public, :content => File.open("README.markdown"), :post_id => post_with_attach.id)
+    b = Attachment.new(:name => "bar", :path => Sinatra.options.public, :content => File.open("README.markdown"), :page_id => page_with_attach.id)
     b.save
-    assert_equal 2, post_with_attach.attachment.size
+    assert_equal 2, page_with_attach.attachment.size
   end
   test "Attachments are created with unique names" do
     a = Attachment.new(:name => "test_one", :path => Sinatra.options.public, :content => File.open("README.markdown"))
