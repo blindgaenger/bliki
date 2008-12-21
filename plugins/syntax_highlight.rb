@@ -1,4 +1,4 @@
-module BlikiContent
+class Page
   begin
     require 'uv'
     @@syntaxes = Uv.syntaxes.inject({}) {|m, s| m[s] = s; m}

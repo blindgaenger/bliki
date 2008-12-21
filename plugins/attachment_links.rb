@@ -2,7 +2,7 @@
 # <file:logo.png>
 # {{logo.png}}
 # file://logo.png
-module BlikiContent
+class Page
   def plugin_attachment_link content
     return content if attachments.nil? or attachments.empty?
 

@@ -2,7 +2,6 @@ require "lib/slugalizer"
 
 class Page
   include Stone::Resource
-  include BlikiContent
 
   field :title, String
   field :nicetitle, String, :unique => true
@@ -26,16 +25,16 @@ class Page
     self.nicetitle = self.title.slugalize
   end
   def date
-    self.created_at.strftime("%d %b %Y")
+    #self.created_at.strftime("%d %b %Y")
   end
   def day
-    self.created_at.strftime("%d")
+    #self.created_at.strftime("%d")
   end
   def month
-    self.created_at.strftime("%m")
+    #self.created_at.strftime("%m")
   end
   def year
-    self.created_at.strftime("%Y")
+    #self.created_at.strftime("%Y")
   end
   def content
     @content_plugins = body || ""

@@ -1,0 +1,10 @@
+<% for page in @pages %>
+<ul>
+  <li><%= link_to page.title, "/pages/#{page.id}" %></li>
+</ul>
+<% end %>
+
+<div class="buttons">
+  <%= link_to 'New', '/pages/new', :accesskey => 'n' %>
+</div>
+

@@ -1,5 +1,6 @@
-<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-  <%= form_method @page %>
+<form action="<%= @action.to_s %>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+  <input type="hidden" name="_method" value="<%= @verb.to_s %>" />
+
   <div class="field">
     <label for="title">Title:</label>
     <input type="text" name="title" value="<%= @page.title %>" id="title" />
