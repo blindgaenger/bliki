@@ -1,15 +1,18 @@
 require "rubygems"
 require "lib/datetime"
 require "rdiscount"
+
 Dir["lib/*.rb"].each { |f| require f }
 Dir["plugins/*.rb"].each { |f| require f }
-
 #Dir["app/views/*.rb"].each { |f| require f }
 
 # submodules
 require "lib/sinatra/lib/sinatra"
 require "lib/sinatra-cache/lib/cache"
 require "lib/stone/lib/stone"
+require "lib/sinatra-rest/lib/rest"
+
+
 
 #####################################################################################
 # Setup
@@ -76,8 +79,17 @@ end
 
 before do
   content_type 'text/html', :charset => 'utf-8'
-  #@tags = ((Page.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten) + (Page.all.collect { |p| p.tags.split(",").collect { |t| t.strip } }.flatten)).uniq.sort
 end
+
+rest Page do
+
+  def index
+    super
+    @xxx = 'I was here'
+  end
+
+end
+
 
 # controllers
 Dir["app/controllers/*.rb"].each { |f| load f }

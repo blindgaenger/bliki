@@ -1,6 +1,6 @@
 <% for page in @pages %>
 <ul>
-  <li><%= link_to page.title, "/pages/#{page.id}" %></li>
+  <li><%= link_to page.title, url_for_pages_show(page) %></li>
 </ul>
 <% end %>
 
