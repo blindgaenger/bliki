@@ -10,7 +10,9 @@ Dir["plugins/*.rb"].each { |f| require f }
 require "lib/sinatra/lib/sinatra"
 require "lib/sinatra-cache/lib/cache"
 require "lib/stone/lib/stone"
+
 require "lib/sinatra-rest/lib/rest"
+#require "rest2"
 
 
 
@@ -81,20 +83,15 @@ before do
   content_type 'text/html', :charset => 'utf-8'
 end
 
-rest Page do
 
+rest Page, {:renderer => :erb} do
   def index
+    puts 'CUSTOM index'
     super
-    @xxx = 'I was here'
   end
-
 end
 
 
 # controllers
 Dir["app/controllers/*.rb"].each { |f| load f }
-
-
-
-
 
