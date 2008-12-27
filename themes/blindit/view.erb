@@ -15,6 +15,7 @@
 </ul>
 
 <div class="buttons">
+  <%= link_to 'All', "/pages", :accesskey => 'a' %>
   <%= link_to 'Edit', "/pages/#{@page.id}/edit", :accesskey => 'e' %>
   <form action="<%= "/pages/#{@page.id}" %>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="delete" />
