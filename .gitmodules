@@ -7,3 +7,7 @@
 [submodule "lib/stone"]
 	path = lib/stone
 	url = git://github.com/bomberstudios/stone.git
+
+[submodule "lib/sinatra-rest"]
+	path = lib/sinatra-rest
+	url = git://github.com/blindgaenger/sinatra-rest.git
