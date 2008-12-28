@@ -9,3 +9,5 @@ class Symbol
     return self.to_s.size <= 0
   end
 end
+
+
