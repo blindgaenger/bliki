@@ -77,6 +77,7 @@ end
 
 before do
   content_type 'text/html', :charset => 'utf-8'
+  @app = Sinatra.options
 end
 
 rest Page, :renderer => :erb

@@ -1,6 +1,6 @@
 base_url = Sinatra.options.base_url
 feed_url = base_url + "/feed/"
-title = Sinatra.options.name + " - " + Sinatra.options.title
+title = @app.title + " - " + @app.subtitle
 limit = Sinatra.options.limit
 author_name = Sinatra.options.author_name
 author_uri = base_url

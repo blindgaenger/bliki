@@ -1,11 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><%= Sinatra.options.name %><%= " - #{@page.title}" unless @page.nil? %><%= " - #{@page.title}" unless @page.nil? %><%= " - #{Sinatra.options.title}" if @page.nil? && @page.nil? %></title>
+    <title><%= @app.title %> - <%= (@page.nil? || @page.title.nil?) ? @app.subtitle : @page.title %></title>
     <meta name="generator" content="bliki on ruby" />
     <link rel="stylesheet" href="/base.css" type="text/css" media="screen" title="base" charset="utf-8">
     <link rel="stylesheet" href="/css/sunburst.css" type="text/css" media="screen" title="base" charset="utf-8">
-    <link rel="alternate" type="application/rss+xml" title="<%= Sinatra.options.name %> Atom Feed" href="<%= Sinatra.options.base_url %>/feed/" />
+    <link rel="alternate" type="application/rss+xml" title="<%= @app.title %> Atom Feed" href="<%= Sinatra.options.base_url %>/feed/" />
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/interface.js"></script>
 		<script type="text/javascript" src="/js/autogrow.js"></script>		
@@ -14,18 +14,14 @@
 
     <div id="header">
       <div id="branding">
-        <img id="logo" src="/img/logo.png" alt="<%= Sinatra.options.name %>" />
-        <h1 id="title"><%= link_to Sinatra.options.name, "/" %></h1>
-        <div id="subtitle"><%= Sinatra.options.title %></div>
+        <img id="logo" src="/img/logo.png" alt="<%= @app.title %>" />
+        <h1 id="title"><%= link_to @app.title, "/" %></h1>
+        <div id="subtitle"><%= @app.subtitle %></div>
       </div>
     </div>
     
     <div id="menu">
-      <ul>
-        <li><%= link_to 'Blog', '/' %></li>                
-        <li><%= link_to 'Wiki', '/wiki' %></li>
-        <li><%= link_to 'About', '/about' %></li>
-      </ul>
+      <%= render :erb, :menu, :layout => false %>
     </div>
     
     <div id="container">
