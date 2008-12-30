@@ -10,9 +10,8 @@ Dir["plugins/*.rb"].each { |f| require f }
 require "lib/sinatra/lib/sinatra"
 require "lib/sinatra-cache/lib/cache"
 require "lib/stone/lib/stone"
-
 require "lib/sinatra-rest/lib/rest"
-#require "rest2"
+
 
 
 
