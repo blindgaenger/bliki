@@ -13,8 +13,6 @@ require "lib/stone/lib/stone"
 require "lib/sinatra-rest/lib/rest"
 
 
-
-
 #####################################################################################
 # Setup
 def stone_start
@@ -27,8 +25,7 @@ def load_config
   YAML::load(File.read('config.yml')).to_hash.each do |k,v|
     set k, v
   end
-  theme = Sinatra.options.theme || "default"
-  set :views, "themes/#{theme}"
+  set :views, "app/views"
 end
 
 def set_options_for env
@@ -82,15 +79,7 @@ before do
   content_type 'text/html', :charset => 'utf-8'
 end
 
+rest Page, :renderer => :erb
 
-rest Page, {:renderer => :erb} do
-  def index
-    puts 'CUSTOM index'
-    super
-  end
-end
-
-
-# controllers
 Dir["app/controllers/*.rb"].each { |f| load f }
 

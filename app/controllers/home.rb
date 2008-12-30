@@ -7,3 +7,4 @@ get '/' do
   end
   cache(erb(:home))
 end
+
