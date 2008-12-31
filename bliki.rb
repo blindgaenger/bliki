@@ -62,8 +62,8 @@ configure :test do
 end
 
 if development?
-  Dir["lib/*.rb"].each { |f| load f }
-  Dir["plugins/*.rb"].each { |f| load f }
+  Dir["lib/*.rb"].sort.each { |f| load f }
+  Dir["plugins/*.rb"].sort.each { |f| load f }
   stone_start
   load_config
   set_options_for :development
@@ -72,7 +72,7 @@ end
 #####################################################################################
 
 helpers do
-  Dir["app/helpers/*.rb"].each { |f| load f }  
+  Dir["app/helpers/*.rb"].sort.each { |f| load f }  
 end
 
 before do
@@ -80,7 +80,5 @@ before do
   @app = Sinatra.options
 end
 
-rest Page, :renderer => :erb
-
-Dir["app/controllers/*.rb"].each { |f| load f }
+Dir["app/controllers/*.rb"].sort.each { |f| load f }
 

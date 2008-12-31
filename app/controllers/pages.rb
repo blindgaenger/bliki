@@ -1,3 +1,11 @@
+rest Page, :renderer => :erb do
+  
+  def before
+    auth
+  end
+
+end
+
 #####################################################
 #### New
 
@@ -32,17 +40,17 @@ end
 
 
 #### View
-['/:slug', '/:slug/'].each do |route|
-  get route do
-    params[:slug].downcase!
-    @page = Page.first(:nicetitle => params[:slug])
-    if @page.nil?
-      redirect "/#{params[:slug]}/new"
-    else
-      cache(erb(:view))
-    end
-  end
-end
+#['/:slug', '/:slug/'].each do |route|
+#  get route do
+#    params[:slug].downcase!
+#    @page = Page.first(:nicetitle => params[:slug])
+#    if @page.nil?
+#      redirect "/#{params[:slug]}/new"
+#    else
+#      cache(erb(:view))
+#    end
+#  end
+#end
 
 #blog
 ['/:year/:month/:day/:slug/','/page/:slug'].each do |route|
