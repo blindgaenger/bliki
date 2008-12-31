@@ -1,0 +1,10 @@
+<div class="tagcloud">
+  <% @tags.each do |tag| %>
+  <ul>
+    <li>
+      <% font_size_factor = 4 %>
+      <%= link_to tag.id, url_for_tags_show(tag), :style => "font-size: #{100 + (font_size_factor*100*tag.score).to_i}%" %>&nbsp;<span>(<%= tag.page_count %>)</span>
+    </li>
+  </ul>
+  <% end %>
+</div>

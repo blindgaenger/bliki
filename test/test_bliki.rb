@@ -79,18 +79,18 @@ class BlikiTest < Test::Unit::TestCase
     first_page.save
     get_it "/page/first-page"
     assert_equal 200, status
-    get_it "/tag/foo"
+    get_it "/tags/foo"
     assert_equal 200, status
-    get_it "/tag/bar"
+    get_it "/tags/bar"
     assert_equal 200, status
   end
   test "Page creation works over the hood" do
     post_it "/new", :title => "Second page", :body => "Wadus wadus", :tags => "wadus, badus"
     get_it "/page/second-page"
     assert_equal 200, status
-    get_it "/tag/wadus"
+    get_it "/tags/wadus"
     assert_equal 200, status
-    get_it "/tag/badus"
+    get_it "/tags/badus"
     assert_equal 200, status
   end
   # Mock content: Pages
@@ -99,18 +99,18 @@ class BlikiTest < Test::Unit::TestCase
     first_page.save
     get_it "/first-page"
     assert_equal 200, status
-    get_it "/tag/foo"
+    get_it "/tags/foo"
     assert_equal 200, status
-    get_it "/tag/bar"
+    get_it "/tags/bar"
     assert_equal 200, status
   end
   test "Page creation works over the hood" do
     post_it "/2/new", :title => "Second page", :body => "Wadus wadus", :tags => "wadus, badus"
     get_it "/second-page"
     assert_equal 200, status
-    get_it "/tag/wadus"
+    get_it "/tags/wadus"
     assert_equal 200, status
-    get_it "/tag/badus"
+    get_it "/tags/badus"
     assert_equal 200, status
   end
 
@@ -171,7 +171,7 @@ class BlikiTest < Test::Unit::TestCase
 
   # Tags
   test "Tag page works" do
-    get_it "/tag/tag1"
+    get_it "/tags/tag1"
     assert_equal 200, status
   end
 

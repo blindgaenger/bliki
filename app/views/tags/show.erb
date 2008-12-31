@@ -1,0 +1,7 @@
+<h2 class="title"><%= @tag.id %></h2>
+
+<% @pages.each do |page| %>
+<ul>
+  <li><%= link_to page.title, url_for_pages_show(page) %></li>
+</ul>
+<% end %>

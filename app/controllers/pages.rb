@@ -1,9 +1,7 @@
 rest Page, :renderer => :erb do
-  
   def before
     auth
   end
-
 end
 
 #####################################################
