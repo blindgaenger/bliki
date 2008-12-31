@@ -1,8 +1,8 @@
-<div class="group">
+<div class="page">
 <% @pages.each do |page| %>
   <div class="<%= page.class.to_s.downcase %>">
     <h2 class="title"><%= link_to page.title, page.link %></h2>
-    <small>pageed on <%= page.date %>, filed under <%= tag_list page.tags, '', '' %></small>
+    <small>paged on <%= page.date %>, filed under <%= tag_links_for_page page %></small>
     <div class="body">
     <%= page.content %>
     </div>
@@ -12,7 +12,7 @@
 </div>
 
 <% if !@archives.nil? %>
-<div class="group">
+<div class="page">
   <h2>archives...</h2>
   <% @archives.each do |page| %>
   <h3><%= link_to page.title, page.link %> (<%= page.date %>)</h3>
@@ -21,6 +21,6 @@
 <% end %>
 
 <div class="buttons">
-  <%= link_to 'New', '/new', :accesskey => 'n' %>
+  <%= link_to 'New', url_for_pages_new, :accesskey => 'n' %>
 </div>
 
