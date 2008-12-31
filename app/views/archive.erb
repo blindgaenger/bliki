@@ -1,13 +1,13 @@
 <h2>Everything tagged with ‘<%= @tag %>’ on <%= @app.title %>:</h2>
-<div class="group">
+<div class="page">
 <% @pages.each do |page| %>
   <h2 class="title"><%= link_to page.title, page.link %></h2>
-  <small>A <%= page.class.to_s.downcase %> published on <%= page.date %>, filed under <%= tag_list page.tags %></small>
+  <small>A <%= page.class.to_s.downcase %> published on <%= page.date %>, filed under <%= tag_links_for_page page %></small>
 <% end %>
 </div>
 
 <% if !@archives.nil? %>
-<div class="group">
+<div class="page">
   <h2>More...</h2>
   <% @archives.each do |page| %><h3><%= link_to page.title, page.link %> (<%= page.date %>)</h3><% end %>
 </div>

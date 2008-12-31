@@ -13,6 +13,10 @@ class Page
   has_many :attachments
   before_save :update_slug
 
+  def self.latest(limit)
+    Page.all(:order => {:updated_at => :desc}).first(limit)
+  end
+
   def link
     "/"+self.nicetitle
   end
@@ -25,7 +29,7 @@ class Page
     self.nicetitle = self.title.slugalize
   end
   def date
-    #self.created_at.strftime("%d %b %Y")
+    self.created_at.strftime("%Y-%m-%d %H:%M:%S")
   end
   def day
     #self.created_at.strftime("%d")
