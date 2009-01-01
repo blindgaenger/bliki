@@ -128,15 +128,21 @@ body
           border-width: 0
           border-color= !button_bg
           border-style: solid
+          border-radius: 0.5em
           -moz-border-radius: 0.5em
+          -webkit-border-radius: 0.5em
 
   #container
     width: 800px
     margin: 0 auto
     text-align: left
     background-color: #fff
+    border-radius-bottomleft: 1em
+    border-radius-bottomright: 1em
     -moz-border-radius-bottomleft: 1em
     -moz-border-radius-bottomright: 1em
+    -webkit-border-radius-bottomleft: 1em
+    -webkit-border-radius-bottomright: 1em
 
     #content
       padding: 2em
@@ -183,18 +189,17 @@ body
         input, a
           margin: 0 5px 0 0
           padding: 0 1em
-
           background-color= !button_bg
           color= !button_fg
           border-width: 0
           border-color= !button_bg
           border-style: solid
-
           font-family: Arial,sans-serif
           font-size: 1em
           font-weight: bold
-          
+          border-radius: 0.5em
           -moz-border-radius: 0.5em
+          -webkit-border-radius: 0.5em
 
         input:hover, a:hover
           background-color= !button_bg_hover
@@ -213,10 +218,9 @@ body
         small
           color= !aluminium4
         .tag
-          -moz-border-radius-topleft: 0.3em
-          -moz-border-radius-topright: 0.3em
-          -moz-border-radius-bottomright: 0.3em
-          -moz-border-radius-bottomleft: 0.3em
+          border-radius: 0.3em
+          -moz-border-radius: 0.3em
+          -webkit-border-radius: 0.3em
           margin-right: 0.1em
           padding: 0.1em 0.4em 0.1em 0.3em
           background-color= !aluminium4
@@ -242,19 +246,17 @@ body
             font-size: 1.5em
             span
               color= !tagcloud_count_fg
-        
-
-    <span style="font-size:<%= 100 + (tag.score*800).to_i %>%"><%= link_to tag.id, "/tags/#{tag.id}" %></span>&nbsp;<span style="color:#cccccc">(<%= tag.page_count %>)</span>
-
 
     div.code
       font-family: Inconsolata, Consolas, Monaco, fixed
       background-color= !black
       color: #F8F8F8
-      -moz-border-radius-topleft: 0.0em
-      -moz-border-radius-topright: 1em
-      -moz-border-radius-bottomright: 1em
-      -moz-border-radius-bottomleft: 1em      
+      border-radius: 1em      
+      border-radius-topleft: 0em
+      -moz-border-radius: 1em      
+      -moz-border-radius-topleft: 0em
+      -webkit-border-radius: 1em      
+      -webkit-border-radius-topleft: 0em
       margin: 1em 0
       padding: 1em
       pre.lines
