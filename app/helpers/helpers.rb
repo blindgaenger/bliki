@@ -19,6 +19,8 @@ def tag_links_for_page(page)
   }
 end
 
+#
+# returns a readable representation of the specific DateTime
 def relatize_date(date)
   require 'time'
   time = Time.parse(date.to_s)
@@ -40,10 +42,19 @@ def relatize_date(date)
     if days < 4
       return "#{days} days ago"
     else
-      return time.strftime("%B %d, %Y")    
+      return time.strftime("at %B %d, %Y")    
     end
   end
 end
+
+#
+# an &lt;abbr&gt; element of the relatized date
+def relatize_date_element(date)
+  formatted = date.strftime("%Y-%m-%d %H:%M:%S")
+  relatized = relatize_date(date)
+  "<abbr title=\"#{formatted}\">#{relatized}</abbr>"
+end
+
 
 def pingomatic
   begin

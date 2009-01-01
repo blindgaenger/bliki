@@ -4,7 +4,6 @@ require "rdiscount"
 
 Dir["lib/*.rb"].each { |f| require f }
 Dir["plugins/*.rb"].each { |f| require f }
-#Dir["app/views/*.rb"].each { |f| require f }
 
 # submodules
 require "lib/sinatra/lib/sinatra"
