@@ -4,7 +4,6 @@
   <div class="body">
     <%= @page.content %>
   </div>
-  <%= disqus if Sinatra.options.use_comments %>
 </div>
 
 <div><%= @page.attachments.size %> Attachments</div>
@@ -13,6 +12,8 @@
     <li><%= link_to attachment.name, attachment.link %></li>
 <% end %>
 </ul>
+
+<%= disqus_comments %>
 
 <div class="buttons">
   <%= link_to 'All', url_for_pages_index, :accesskey => 'a' %>

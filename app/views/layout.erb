@@ -8,7 +8,8 @@
     <link rel="alternate" type="application/rss+xml" title="<%= @app.title %> Atom Feed" href="<%= Sinatra.options.base_url %>/feed/" />
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/interface.js"></script>
-		<script type="text/javascript" src="/js/autogrow.js"></script>		
+		<script type="text/javascript" src="/js/autogrow.js"></script>
+		<%= disqus_head %>
   </head>
   <body>
 
@@ -33,6 +34,7 @@
     <div id="footer"><%= link_to Sinatra.options.author_name, "mailto:me@home.net" %> is powered by <%= link_to "bliki", "http://github.com/bomberstudios/bliki" %></div>
     <%= reinvigorate unless development? %>
 
+    <%= disqus_scripts %>
   </body>
 </html>
 

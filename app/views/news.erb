@@ -1,15 +1,13 @@
-<div class="page">
 <% @pages.each do |page| %>
-  <div class="<%= page.class.to_s.downcase %>">
-    <h2 class="title"><%= link_to page.title, page.link %></h2>
-    <small>paged on <%= page.date %>, filed under <%= tag_links_for_page page %></small>
+  <div class="page">
+    <h2 class="title"><%= link_to page.title, url_for_pages_show(page) %></h2>
+    <small>updated <%= relatize_date_element page.updated_at %>&nbsp;<%= tag_links_for_page page %></small>  
     <div class="body">
-    <%= page.content %>
+      <%= body = page.body || ""; body.length < 100 ? body : body[0..100]+"..." %>
     </div>
-    <%= "<p><a href='#{page.link}#disqus_thread'>View Comments</a></p>" if Sinatra.options.use_comments %>
+    <%= disqus_link page, 'View Comments' %>
   </div>
 <% end %>
-</div>
 
 <% if !@archives.nil? %>
 <div class="page">
