@@ -2,6 +2,11 @@ rest Page, :renderer => :erb do
   def before
     auth
   end
+  
+  def index
+    super
+    @pages.sort! {|a,b| a.title.downcase <=> b.title.downcase}
+  end
 end
 
 #####################################################
