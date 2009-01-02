@@ -30,6 +30,10 @@
 !aluminium6= #2e3436
 !black= #000000
 
+!light_blue= #eaf2f5
+!dark_blue= #cbe3f0
+
+
 
 !body_bg= !aluminium6
 !subtitle_fg= !aluminium3
@@ -40,6 +44,13 @@
 !button_bg= !aluminium6
 !button_bg_hover= !scarletred2
 !button_fg= !white
+
+!menu_bg= !light_blue
+!menu_bo= !dark_blue
+
+!inline_code_bg= !menu_bg
+!inline_code_bo= !menu_bo
+!inline_code_fg= !aluminium5
 
 !tagcloud_count_fg= !aluminium3
 
@@ -95,8 +106,9 @@ body
 
   #menu
     padding: 0.5em 0
-    border-bottom: 1px solid #CBE3F0
-    background: #EAF2F5 url(/img/menu-bg.png) repeat-x scroll 0 0
+    background: #000000 url(/img/menu-bg.png) repeat-x scroll 0 0
+    background-color= !menu_bg
+    border-bottom= 1px solid !menu_bo
     text-align: left
     
     ul
@@ -247,6 +259,14 @@ body
             span
               color= !tagcloud_count_fg
 
+      .body
+        code
+          background-color= !inline_code_bg
+          border= 1px solid !inline_code_bo
+          color= !inline_code_fg
+          font-size: 90%
+          padding: 0 0.2em
+
     div.code
       font-family: Inconsolata, Consolas, Monaco, fixed
       background-color= !black
@@ -301,5 +321,7 @@ a
 
 abbr
   border-bottom: medium none
+
+
 
 

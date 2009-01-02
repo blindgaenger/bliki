@@ -1,9 +1,10 @@
 def disqus_head
-  if @app.use_comments && !production?
+  if @app.use_comments
     <<-XXX
 <script type="text/javascript">
 //<![CDATA[
-  var disqus_developer = 1;
+  var disqus_developer = #{production? ? 0 : 1};
+  var disqus_iframe_css = "#{@app.base_url}/css/disqus.css"
 //]]>
 </script>
     XXX
