@@ -1,8 +1,8 @@
-<% for page in @pages %>
 <ul>
+<% for page in @pages %>
   <li><%= link_to page.title, url_for_pages_show(page) %></li>
-</ul>
 <% end %>
+</ul>
 
 <div class="buttons">
   <%= link_to 'New', '/pages/new', :accesskey => 'n' %>
