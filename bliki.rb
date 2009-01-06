@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require "rubygems"
 require "lib/datetime"
 require "rdiscount"
