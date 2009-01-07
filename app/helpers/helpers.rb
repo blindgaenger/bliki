@@ -1,3 +1,32 @@
+#
+# <%= element 'empty' %>
+# <%= element 'empty', :class => 'box' %>
+# <%= element 'return' do 'content' end %>
+# <%= element 'element' do |el| el << 'content' end %>
+# <%= element 'outer' do element('inner') do 'content'; end; end %>
+def element(tag, options={}, &block)
+  html = []
+
+  html << "<#{tag}"
+  attributes = options.map {|k, v| "#{k.to_s}=\"#{v}\"" }.join(' ')
+  html << " #{attributes}" unless attributes.empty?
+  html << '>'
+  
+  unless block.nil?
+    el = []
+    rtn = block[el]
+    unless el.nil? || el.empty?
+      html << el.join('')
+    else
+      html << rtn
+    end
+  end
+
+  html << "</#{tag}>"
+  
+  html.join('')
+end
+
 def link_to(text, url, options={})
   url = "javascript: history.go(-1)" if url == :back
   options[:href] = url
